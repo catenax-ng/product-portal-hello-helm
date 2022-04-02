@@ -1,39 +1,51 @@
-# product-portal-hello-helm
+# A minimal Catena-X NG CI pipeline
 
-A minimal project template featuring
+Project template featuring
 - simple web page
-- docker build
-- helm chart
-- github action
+- Docker build
+- Helm chart
+- GitHub action CI pipeline
 
 
-local build & publish & run
+### Login to ghcr.io
 
-    # go to https://github.com/settings/tokens create a token with "repo read&write" permissions
-    echo $YOUR_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
+Go to https://github.com/settings/tokens and create a token with "repo read&write" permissions.
+Use it to login with the GitHub container registry.
 
-    export IMAGE=ghcr.io/$GITHUB_USER/hello-helm
-    docker build -t $IMAGE -f .conf/Dockerfile .
-    docker push $IMAGE
-    docker run --rm -d -p 3000:8080 --name hello-helm.local $IMAGE
-    curl -s http://localhost:3000/
-    docker stop hello-helm.local
+    echo YOUR_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
 
 
-change content and publish through github action
+### CI build & publish
 
-    # replace the "Hello *" message with your username
+Edit the web page content. Replace the "Hello *" message with your username.
+Then push your changes to trigger the GitHub action CI pipeline.
+
     sed -i 's/Hello [^!<]*/Hello '$USER'/g' docs/index.html
     git commit -am "greet myself"
     git push
 
-    # wait until the action is finished (~30s) - check here
-    # https://github.com/catenax-ng/product-portal-hello-helm/actions
 
-    # download and run the image - check if your changes are applied
+Wait until the action is finished (~30s). Check the status here
+https://github.com/catenax-ng/product-portal-hello-helm/actions
+
+
+### Download & run the image
+
+Download the image, start the web application and check if your changes are applied.
+
     export IMAGE=ghcr.io/catenax-ng/product-portal-hello-helm:main
     docker pull $IMAGE
     docker run --rm -d -p 3000:8080 --name hello-helm.ci $IMAGE
     curl -s http://localhost:3000/ | grep Hello
+
+
+### cleanup
+
+Delete unused resources
+
+    docker stop hello-helm.local
     docker stop hello-helm.ci
+    docker rm hello-helm.local
+    docker rm hello-helm.ci
+    docker rmi $IMAGE
 
