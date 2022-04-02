@@ -2,14 +2,15 @@
 
 Project template featuring
 - simple web page
-- Docker build
-- Helm chart
 - GitHub action CI pipeline
+- Docker build
+- Publish to GitHub container registry
+- Helm chart
 
 
 ### Login to ghcr.io
 
-Go to https://github.com/settings/tokens and create a token with "repo read&write" permissions.
+Go to https://github.com/settings/tokens and create a token with "repo write" permissions.
 Use it to login with the GitHub container registry.
 
     echo YOUR_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
@@ -29,9 +30,9 @@ Wait until the action is finished (~30s). Check the status here
 https://github.com/catenax-ng/product-portal-hello-helm/actions
 
 
-### Download & run the image
+### Pull & run the image
 
-Download the image, start the web application and check if your changes are applied.
+Download the image, start the container and check if your changes are applied.
 
     export IMAGE=ghcr.io/catenax-ng/product-portal-hello-helm:main
     docker pull $IMAGE
@@ -43,9 +44,7 @@ Download the image, start the web application and check if your changes are appl
 
 Delete unused resources
 
-    docker stop hello-helm.local
-    docker stop hello-helm.ci
-    docker rm hello-helm.local
-    docker rm hello-helm.ci
+    docker kill hello-helm.local
+    docker kill hello-helm.ci
     docker rmi $IMAGE
 
