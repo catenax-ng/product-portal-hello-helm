@@ -1,4 +1,4 @@
-image: "ghcr.io/catenax-ng/hello-helm:latest"
+image: "ghcr.io/catenax-ng/product-porta-hello-helm:main"
 portContainer: 8080
 portService: 8080
 replicaCount: 1

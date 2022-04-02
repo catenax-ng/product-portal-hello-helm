@@ -1,4 +1,4 @@
-# A minimal Catena-X NG CI pipeline
+# A minimal Catena-X NG CI pipeline template
 
 Project template featuring
 - simple web page
@@ -35,8 +35,7 @@ https://github.com/catenax-ng/product-portal-hello-helm/actions
 Download the image, start the container and check if your changes are applied.
 
     export IMAGE=ghcr.io/catenax-ng/product-portal-hello-helm:main
-    docker pull $IMAGE
-    docker run --rm -d -p 3000:8080 --name hello-helm.ci $IMAGE
+    docker run --rm -d -p 3000:8080 --name hello-helm $IMAGE
     curl -s http://localhost:3000/ | grep Hello
 
 
@@ -44,7 +43,6 @@ Download the image, start the container and check if your changes are applied.
 
 Delete unused resources
 
-    docker kill hello-helm.local
-    docker kill hello-helm.ci
-    docker rmi $IMAGE
+    docker kill hello-helm
+    docker rmi ghcr.io/catenax-ng/product-portal-hello-helm:main
 
