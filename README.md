@@ -15,7 +15,18 @@ local build & publish & run
     docker push $IMAGE
 
 
-github action
+change content and publish through github action
 
-    
+    # replace the "Hello *" message with your username
+    sed -i 's/Hello [^!<]*/Hello '$USER'/g' docs/index.html
+    git commit -am "greet myself"
+    git push
+
+    # wait until the action is finished (~30s) - check here
+    # https://github.com/catenax-ng/product-portal-hello-helm/actions
+
+    export IMAGE=ghcr.io/catenax-ng/product-portal-hello-helm:main
+    docker pull $IMAGE
+    docker run --rm -d -p 3000:8080 --name cx-hello-helm $IMAGE
+    curl -s http://localhost:3000/ | grep Hello
 
