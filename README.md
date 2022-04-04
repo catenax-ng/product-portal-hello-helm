@@ -19,22 +19,14 @@ Then push your changes to trigger the GitHub action CI pipeline.
 
 
 Wait until the action is finished (~30s). Check the status here
-https://github.com/oyo/product-portal-hello-helm/actions
-
-
-### [only if private package] Login to ghcr.io
-
-Go to https://github.com/settings/tokens and create a token with "repo read" permissions.
-Use it to login with the GitHub container registry.
-
-    echo YOUR_TOKEN | docker login ghcr.io -u USERNAME --password-stdin
+https://github.com/catenax-ng/product-portal-hello-helm/actions
 
 
 ### Pull & run the image
 
 Download the image, start the container and check if your changes are applied.
 
-    export IMAGE=ghcr.io/oyo/product-portal-hello-helm:main
+    export IMAGE=ghcr.io/catenax-ng/product-portal-hello-helm:main
     docker pull $IMAGE
     docker run --rm -d -p 3000:8080 --name hello-helm $IMAGE
     curl -s http://localhost:3000/ | grep Hello
@@ -45,5 +37,5 @@ Download the image, start the container and check if your changes are applied.
 Delete unused resources
 
     docker stop hello-helm
-    docker rmi ghcr.io/oyo/product-portal-hello-helm:main
+    docker rmi ghcr.io/catenax-ng/product-portal-hello-helm:main
 
